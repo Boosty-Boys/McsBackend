@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: MCS BFF
+  version: 1.0.0
+servers:
+  - url: https://mcs-app-backend-c57cd7cec173.herokuapp.com
+paths:
+  /teams:
+    get:
+      tags:
+        - default
+      summary: Teams
+      parameters:
+        - name: seasonNumber
+          in: query
+          schema:
+            type: integer
+          example: '3'
+        - name: leagueId
+          in: query
+          schema:
+            type: string
+          example: 5f2c5e4f08c88e00084b44b6
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /matches:
+    get:
+      tags:
+        - default
+      summary: Matches
+      parameters:
+        - name: seasonNumber
+          in: query
+          schema:
+            type: integer
+          example: '3'
+        - name: leagueId
+          in: query
+          schema:
+            type: string
+          example: 5f2c5e4f08c88e00084b44b6
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /players:
+    get:
+      tags:
+        - default
+      summary: Players
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /seasons:
+    get:
+      tags:
+        - default
+      summary: Seasons
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /leagues:
+    get:
+      tags:
+        - default
+      summary: Leagues
+      parameters:
+        - name: seasonNumber
+          in: query
+          schema:
+            type: integer
+          example: '3'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
