@@ -50,3 +50,4 @@ bin/
 hs_err_pid*.log
 
 gradle-user-home
+mcs_log.log

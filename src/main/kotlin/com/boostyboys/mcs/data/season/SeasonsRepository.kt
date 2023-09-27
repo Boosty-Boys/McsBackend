@@ -13,6 +13,7 @@ import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.isSuccess
+import io.ktor.util.logging.KtorSimpleLogger
 
 class SeasonsRepository(private val client: HttpClient) {
 
@@ -171,8 +172,10 @@ internal fun populateMatchesMap(matchesBody: List<Match>): Map<String, SimpleGam
     return map
 }
 
+internal val LOGGER = KtorSimpleLogger("WinsAndLossesLogger")
+
 // todo joer where does this live
-fun populateWinsAndLosses(seasonsBody: List<SeasonsWithLeaguesAndTeamsMatchesResponseItem>, matchesMap: Map<String, SimpleGameResult>) {
+internal fun populateWinsAndLosses(seasonsBody: List<SeasonsWithLeaguesAndTeamsMatchesResponseItem>, matchesMap: Map<String, SimpleGameResult>) {
     // populate team wins + losses
     seasonsBody.forEach { season ->
         season.matches.forEach { match ->
@@ -180,7 +183,7 @@ fun populateWinsAndLosses(seasonsBody: List<SeasonsWithLeaguesAndTeamsMatchesRes
             val teamIds = match.teamIds
 
             if (matchesMap.containsKey(matchId).not()) {
-                // todo joer add logging
+                LOGGER.error("No winner / loser for matchId $matchId")
             }
 
             matchesMap[matchId]?.let {
