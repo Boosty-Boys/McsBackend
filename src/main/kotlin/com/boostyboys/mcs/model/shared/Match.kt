@@ -18,7 +18,7 @@ data class Match(
     @SerialName("players_to_teams")
     val playersToTeams: List<PlayersToTeam>,
     @SerialName("status")
-    val status: String,
+    val status: MatchStatus,
     @SerialName("team_ids")
     val teamIds: List<String>,
     @SerialName("updated_at")
