@@ -14,7 +14,7 @@ Execute this command
 
 Then, navigate to [http://localhost:8080/](http://localhost:8080/) (or whatever your defined route is)
 
-Or run the main function
+Or run the main function located at [main.kt](src/main/kotlin/com/boostyboys/mcs/Application.kt)
 
 ## Documentation
 1. Export postman collection
