@@ -91,6 +91,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json")
     implementation("io.ktor:ktor-server-cors")
     implementation("io.ktor:ktor-server-swagger")
+    implementation("io.ktor:ktor-server-call-logging")
 
     implementation("org.kodein.di:kodein-di-jvm:7.17.0")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")

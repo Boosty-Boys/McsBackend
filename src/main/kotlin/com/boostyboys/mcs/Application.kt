@@ -18,6 +18,7 @@ import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.defaultheaders.DefaultHeaders
 import io.ktor.server.plugins.swagger.swaggerUI
@@ -42,6 +43,8 @@ fun main() {
             install(DefaultHeaders) {
                 header(HttpHeaders.Server, "ktor")
             }
+
+            install(CallLogging)
 
             // swagger
             install(CORS) {

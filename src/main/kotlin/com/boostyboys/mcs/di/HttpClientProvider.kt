@@ -6,6 +6,7 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.engine.cio.endpoint
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.headers
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -19,6 +20,7 @@ private const val TIMEOUT_MS = 10_000L
 fun DI.MainBuilder.bindHttpClient() {
     bindSingleton {
         HttpClient(CIO) {
+            install(Logging)
             defaultRequest {
                 url(BASE_URL)
                 headers {
