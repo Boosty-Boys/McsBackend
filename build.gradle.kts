@@ -92,9 +92,11 @@ dependencies {
     implementation("io.ktor:ktor-server-cors")
     implementation("io.ktor:ktor-server-swagger")
     implementation("io.ktor:ktor-server-call-logging")
+    implementation("io.ktor:ktor-server-metrics-micrometer")
 
     implementation("org.kodein.di:kodein-di-jvm:7.17.0")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
+
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("io.ktor:ktor-server-test-host")
