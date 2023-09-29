@@ -1,9 +1,6 @@
 package com.boostyboys.mcs.data.match
 
 import com.boostyboys.mcs.either.Either
-import com.boostyboys.mcs.model.local.LocalGame.Companion.toLocal
-import com.boostyboys.mcs.model.local.LocalMatch
-import com.boostyboys.mcs.model.local.LocalTeam.Companion.toLocal
 import com.boostyboys.mcs.model.remote.match.MatchesWithGamesAndTeamsResponseItem
 import com.boostyboys.mcs.model.remote.response.ErrorMessage
 import io.ktor.client.HttpClient
