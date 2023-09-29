@@ -1,3 +1,3 @@
-package com.boostyboys.mcs.model.player
+package com.boostyboys.mcs.model.remote.player
 
 class PlayerListResponse : ArrayList<PlayerListResponseItem>()

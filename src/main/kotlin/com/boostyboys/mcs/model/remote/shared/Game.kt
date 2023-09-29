@@ -1,6 +1,6 @@
-package com.boostyboys.mcs.model.shared
+package com.boostyboys.mcs.model.remote.shared
 
-import com.boostyboys.mcs.model.match.ReplayOrigin
+import com.boostyboys.mcs.model.remote.match.ReplayOrigin
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
