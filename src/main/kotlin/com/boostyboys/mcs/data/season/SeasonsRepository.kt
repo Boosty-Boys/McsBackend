@@ -185,7 +185,14 @@ class SeasonsRepository(private val client: HttpClient) {
                                     remoteTeam.toLocal()
                                 },
                                 matches = remoteSeason.matches.map { remoteMatch ->
-                                    remoteMatch.toLocal()
+                                    remoteMatch.toLocal(
+                                        teamOne = remoteSeason.teams.find { team ->
+                                            team.id == remoteMatch.teamIds.first()
+                                        }?.toLocal(),
+                                        teamTwo = remoteSeason.teams.find { team ->
+                                            team.id == remoteMatch.teamIds.last()
+                                        }?.toLocal(),
+                                    )
                                 },
                             )
                         }

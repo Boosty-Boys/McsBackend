@@ -14,11 +14,14 @@ data class LocalMatch(
     @SerialName("games") val games: List<LocalGame>,
 ) {
     companion object {
-        fun Match.toLocal(): LocalMatch {
+        fun Match.toLocal(
+            teamOne: LocalTeam?,
+            teamTwo: LocalTeam?,
+        ): LocalMatch {
             return LocalMatch(
                 week = week,
-                teamOne = null,
-                teamTwo = null,
+                teamOne = teamOne,
+                teamTwo = teamTwo,
                 winningTeamId = winningTeamId,
                 dateTime = createdAt,
                 games = emptyList(),
