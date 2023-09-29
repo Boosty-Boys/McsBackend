@@ -2,7 +2,9 @@ package com.boostyboys.mcs.data.season
 
 import com.boostyboys.mcs.either.Either
 import com.boostyboys.mcs.model.local.LocalLeague
+import com.boostyboys.mcs.model.local.LocalMatch.Companion.toLocal
 import com.boostyboys.mcs.model.local.LocalSeason
+import com.boostyboys.mcs.model.local.LocalTeam.Companion.toLocal
 import com.boostyboys.mcs.model.remote.response.ErrorMessage
 import com.boostyboys.mcs.model.remote.seasons.SeasonsWithLeaguesAndTeamsMatchesResponseItem
 import com.boostyboys.mcs.model.remote.shared.GameStatus
@@ -33,18 +35,18 @@ class SeasonsRepository(private val client: HttpClient) {
                     }
                 }
 
-                val gamesResponseAsync = async {
+                val matchesResponseAsync = async {
                     client.get {
                         this.url("matches")
                     }
                 }
 
                 val seasonsResponse = seasonsResponseAsync.await()
-                val gamesResponse = gamesResponseAsync.await()
+                val matchesResponse = matchesResponseAsync.await()
 
                 when {
-                    seasonsResponse.status.isSuccess() && gamesResponse.status.isSuccess() -> {
-                        val matchesBody = gamesResponse.body<List<Match>>()
+                    seasonsResponse.status.isSuccess() && matchesResponse.status.isSuccess() -> {
+                        val matchesBody = matchesResponse.body<List<Match>>()
                         val matchesMap = populateMatchesMap(matchesBody)
 
                         // filter for season + league
@@ -71,11 +73,11 @@ class SeasonsRepository(private val client: HttpClient) {
                         )
                     }
 
-                    gamesResponse.status.isSuccess().not() -> {
+                    matchesResponse.status.isSuccess().not() -> {
                         Either.failure(
                             ErrorMessage(
-                                httpStatusCode = gamesResponse.status.value,
-                                message = gamesResponse.status.description,
+                                httpStatusCode = matchesResponse.status.value,
+                                message = matchesResponse.status.description,
                             ),
                         )
                     }
@@ -115,18 +117,18 @@ class SeasonsRepository(private val client: HttpClient) {
                     }
                 }
 
-                val gamesResponseAsync = async {
+                val matchesResponseAsync = async {
                     client.get {
                         this.url("matches")
                     }
                 }
 
                 val seasonsResponse = seasonsResponseAsync.await()
-                val gamesResponse = gamesResponseAsync.await()
+                val matchesResponse = matchesResponseAsync.await()
 
                 when {
-                    seasonsResponse.status.isSuccess() && gamesResponse.status.isSuccess() -> {
-                        val matchesBody = gamesResponse.body<List<Match>>()
+                    seasonsResponse.status.isSuccess() && matchesResponse.status.isSuccess() -> {
+                        val matchesBody = matchesResponse.body<List<Match>>()
                         val matchesMap = populateMatchesMap(matchesBody)
 
                         val seasonsBody = seasonsResponse.body<List<SeasonsWithLeaguesAndTeamsMatchesResponseItem>>()
@@ -147,11 +149,11 @@ class SeasonsRepository(private val client: HttpClient) {
                         )
                     }
 
-                    gamesResponse.status.isSuccess().not() -> {
+                    matchesResponse.status.isSuccess().not() -> {
                         Either.failure(
                             ErrorMessage(
-                                httpStatusCode = gamesResponse.status.value,
-                                message = gamesResponse.status.description,
+                                httpStatusCode = matchesResponse.status.value,
+                                message = matchesResponse.status.description,
                             ),
                         )
                     }
@@ -178,8 +180,20 @@ class SeasonsRepository(private val client: HttpClient) {
                                     id = remoteSeason.league.id,
                                     name = remoteSeason.league.name,
                                     seasonIds = remoteSeason.league.seasonIds,
-                                    teamsIdsBySeason = mapOf(), // TODO do we want this here?
                                 ),
+                                teams = remoteSeason.teams.map { remoteTeam ->
+                                    remoteTeam.toLocal()
+                                },
+                                matches = remoteSeason.matches.map { remoteMatch ->
+                                    remoteMatch.toLocal(
+                                        teamOne = remoteSeason.teams.find { team ->
+                                            team.id == remoteMatch.teamIds.first()
+                                        }?.toLocal(),
+                                        teamTwo = remoteSeason.teams.find { team ->
+                                            team.id == remoteMatch.teamIds.last()
+                                        }?.toLocal(),
+                                    )
+                                },
                             )
                         }
                     }

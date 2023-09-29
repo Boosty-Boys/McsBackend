@@ -11,6 +11,4 @@ data class LocalLeague(
     val name: String,
     @SerialName("season_id")
     val seasonIds: List<String>,
-    @SerialName("team_ids_by_season")
-    val teamsIdsBySeason: Map<String, List<String>>,
 )
