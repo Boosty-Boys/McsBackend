@@ -6,7 +6,6 @@ import com.boostyboys.mcs.model.local.LocalMatch
 import com.boostyboys.mcs.model.local.LocalTeam.Companion.toLocal
 import com.boostyboys.mcs.model.remote.match.MatchesWithGamesAndTeamsResponseItem
 import com.boostyboys.mcs.model.remote.response.ErrorMessage
-import com.boostyboys.mcs.model.remote.shared.Game
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
