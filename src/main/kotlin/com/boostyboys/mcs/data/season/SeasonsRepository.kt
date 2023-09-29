@@ -178,7 +178,6 @@ class SeasonsRepository(private val client: HttpClient) {
                                     id = remoteSeason.league.id,
                                     name = remoteSeason.league.name,
                                     seasonIds = remoteSeason.league.seasonIds,
-                                    teamsIdsBySeason = mapOf(), // TODO do we want this here?
                                 ),
                             )
                         }
