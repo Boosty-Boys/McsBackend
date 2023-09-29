@@ -1,5 +1,9 @@
 package com.boostyboys.mcs.model.local
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class LocalPlayer(
-    val name: String,
+    @SerialName("name") val name: String,
 )

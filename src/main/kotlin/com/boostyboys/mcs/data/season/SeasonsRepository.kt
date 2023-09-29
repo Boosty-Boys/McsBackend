@@ -3,6 +3,8 @@ package com.boostyboys.mcs.data.season
 import com.boostyboys.mcs.either.Either
 import com.boostyboys.mcs.model.local.LocalLeague
 import com.boostyboys.mcs.model.local.LocalSeason
+import com.boostyboys.mcs.model.local.LocalTeam
+import com.boostyboys.mcs.model.local.LocalTeam.Companion.toLocal
 import com.boostyboys.mcs.model.remote.response.ErrorMessage
 import com.boostyboys.mcs.model.remote.seasons.SeasonsWithLeaguesAndTeamsMatchesResponseItem
 import com.boostyboys.mcs.model.remote.shared.GameStatus
@@ -24,7 +26,7 @@ class SeasonsRepository(private val client: HttpClient) {
     suspend fun getAllTeamsForSeasonAndLeague(
         seasonNumber: String,
         leagueId: String,
-    ): Either<List<SeasonsWithLeaguesAndTeamsMatchesResponseItem>, ErrorMessage> {
+    ): Either<List<LocalTeam>, ErrorMessage> {
         return runCatching {
             runBlocking {
                 val seasonsResponseAsync = async {
@@ -92,8 +94,14 @@ class SeasonsRepository(private val client: HttpClient) {
             }
         }
             .fold(
-                onSuccess = {
-                    it
+                onSuccess = { either ->
+                    either.map {
+                        it.flatMap { season ->
+                            season.teams.map { team ->
+                                team.toLocal()
+                            }
+                        }
+                    }
                 },
                 onFailure = {
                     Either.failure(
