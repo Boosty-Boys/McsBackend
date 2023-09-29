@@ -28,36 +28,36 @@ class MatchController(override val di: DI) : KodeinController() {
             runCatching {
                 val seasonNumber = call.requireQueryParameter("seasonNumber")
                 val leagueId = call.requireQueryParameter("leagueId")
-//                val teamsResponse = async {
-//                    seasonRepository.getAllTeamsForSeasonAndLeague(
-//                        seasonNumber = seasonNumber,
-//                        leagueId = leagueId,
-//                    )
-//                }
+                val teamsResponse = async {
+                    seasonRepository.getAllTeamsForSeasonAndLeague(
+                        seasonNumber = seasonNumber,
+                        leagueId = leagueId,
+                    )
+                }
 
                 val matchesResponse = async { matchRepository.getAllMatches() }
 
-//                val teams = teamsResponse.await()
-                matchesResponse.await()
+                val teams = teamsResponse.await()
+                val matches = matchesResponse.await()
 
-//                when {
-//                    matches is Either.Success && teams is Either.Success -> {
-//                        processMatches(matches = matches, teams = teams)
-//                    }
-//
-//                    matches is Either.Failure -> {
-//                        matches
-//                    }
-//
-//                    teams is Either.Failure -> {
-//                        teams
-//                    }
-//
-//                    else -> {
-//                        // just pick one
-//                        matches
-//                    }
-//                }
+                when {
+                    matches is Either.Success && teams is Either.Success -> {
+                        processMatches(matches = matches, teams = teams)
+                    }
+
+                    matches is Either.Failure -> {
+                        matches
+                    }
+
+                    teams is Either.Failure -> {
+                        teams
+                    }
+
+                    else -> {
+                        // just pick one
+                        matches
+                    }
+                }
             }.fold(
                 onSuccess = {
                     when (it) {

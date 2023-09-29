@@ -15,7 +15,7 @@ import io.ktor.http.isSuccess
 
 class MatchRepository(private val client: HttpClient) {
 
-    suspend fun getAllMatches(): Either<List<LocalMatch>, ErrorMessage> {
+    suspend fun getAllMatches(): Either<List<MatchesWithGamesAndTeamsResponseItem>, ErrorMessage> {
         val seasonsResponse: HttpResponse = client.get {
             this.url("matches?populate=games&populate=teams")
         }.body()
@@ -23,20 +23,9 @@ class MatchRepository(private val client: HttpClient) {
         return if (seasonsResponse.status.isSuccess()) {
             val body = seasonsResponse.body<List<MatchesWithGamesAndTeamsResponseItem>>()
 
-            val matches = body.map {
-                LocalMatch(
-                    week = it.week,
-                    teamOne = it.teams.getOrNull(0)?.toLocal(),
-                    teamTwo = it.teams.getOrNull(1)?.toLocal(),
-                    winningTeamId = it.winningTeamId,
-                    dateTime = it.createdAt,
-                    games = it.games.map { game ->
-                        game.toLocal()
-                    },
-                )
-            }
-
-            Either.success(matches)
+            Either.success(
+                body,
+            )
         } else {
             Either.failure(
                 ErrorMessage(
