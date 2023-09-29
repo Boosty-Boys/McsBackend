@@ -3,8 +3,8 @@ package com.boostyboys.mcs.data.league
 import com.boostyboys.mcs.Routes
 import com.boostyboys.mcs.di.KodeinController
 import com.boostyboys.mcs.either.Either
-import com.boostyboys.mcs.model.requireQueryParameter
 import com.boostyboys.mcs.model.remote.response.ErrorMessage
+import com.boostyboys.mcs.model.requireQueryParameter
 import io.ktor.http.ContentType
 import io.ktor.server.application.call
 import io.ktor.server.resources.get
