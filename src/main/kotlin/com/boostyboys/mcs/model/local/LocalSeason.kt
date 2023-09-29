@@ -1,9 +1,11 @@
 package com.boostyboys.mcs.model.local
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class LocalSeason(
-    val id: String,
-    val name: String,
-    val order: Int,
-    val leagueIds: List<String>,
-    val weeks: Int,
+    @SerialName("_id") val id: String,
+    @SerialName("name") val name: String,
+    @SerialName("league") val league: LocalLeague,
 )
