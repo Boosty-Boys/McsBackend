@@ -1,8 +1,8 @@
 package com.boostyboys.mcs.data.match
 
 import com.boostyboys.mcs.either.Either
-import com.boostyboys.mcs.model.match.MatchesWithGamesAndTeamsResponseItem
-import com.boostyboys.mcs.model.response.ErrorMessage
+import com.boostyboys.mcs.model.remote.match.MatchesWithGamesAndTeamsResponseItem
+import com.boostyboys.mcs.model.remote.response.ErrorMessage
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

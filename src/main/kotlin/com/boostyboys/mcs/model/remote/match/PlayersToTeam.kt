@@ -1,4 +1,4 @@
-package com.boostyboys.mcs.model.shared
+package com.boostyboys.mcs.model.remote.match
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

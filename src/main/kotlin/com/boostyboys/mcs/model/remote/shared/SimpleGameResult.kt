@@ -1,4 +1,4 @@
-package com.boostyboys.mcs.model.shared
+package com.boostyboys.mcs.model.remote.shared
 
 data class SimpleGameResult(
     val winner: GameStatus,

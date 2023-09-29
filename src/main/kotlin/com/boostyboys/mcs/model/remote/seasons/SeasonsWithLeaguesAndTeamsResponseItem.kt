@@ -1,13 +1,12 @@
-package com.boostyboys.mcs.model.seasons
+package com.boostyboys.mcs.model.remote.seasons
 
-import com.boostyboys.mcs.model.shared.League
-import com.boostyboys.mcs.model.shared.Match
-import com.boostyboys.mcs.model.shared.Team
+import com.boostyboys.mcs.model.remote.shared.League
+import com.boostyboys.mcs.model.remote.shared.Team
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SeasonsWithLeaguesAndTeamsMatchesResponseItem(
+data class SeasonsWithLeaguesAndTeamsResponseItem(
     @SerialName("created_at")
     val createdAt: String,
     @SerialName("_id")
@@ -26,6 +25,4 @@ data class SeasonsWithLeaguesAndTeamsMatchesResponseItem(
     val league: League,
     @SerialName("updated_at")
     val updatedAt: String,
-    @SerialName("matches")
-    val matches: List<Match>,
 )

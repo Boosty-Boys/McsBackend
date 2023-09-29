@@ -3,7 +3,7 @@ package com.boostyboys.mcs.data.match
 import com.boostyboys.mcs.di.bindHttpClient
 import com.boostyboys.mcs.di.bindSingleton
 import com.boostyboys.mcs.kodeinApplication
-import com.boostyboys.mcs.model.response.ErrorMessage
+import com.boostyboys.mcs.model.remote.response.ErrorMessage
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode

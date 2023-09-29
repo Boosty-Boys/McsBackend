@@ -1,4 +1,4 @@
-package com.boostyboys.mcs.model.player
+package com.boostyboys.mcs.model.remote.player
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

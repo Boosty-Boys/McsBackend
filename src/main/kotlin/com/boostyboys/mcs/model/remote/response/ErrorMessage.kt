@@ -1,4 +1,4 @@
-package com.boostyboys.mcs.model.response
+package com.boostyboys.mcs.model.remote.response
 
 import kotlinx.serialization.Serializable
 
