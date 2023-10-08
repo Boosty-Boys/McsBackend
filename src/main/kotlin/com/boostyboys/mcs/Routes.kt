@@ -6,20 +6,7 @@ import io.ktor.resources.Resource
  * A class containing routes annotated with [Resource] to implement type-safe routing.
  */
 object Routes {
-
-    // get all teams for a season and league
-    @Resource("/teams")
-    object AllTeamsForSeasonAndLeague
-    // https://mcs-app-backend-c57cd7cec173.herokuapp.com/teams?seasonNumber=2&leagueId=5f2c5e4f08c88e00084b44b6
-    // http://localhost:8080/teams?seasonNumber=2&leagueId=5f2c5e4f08c88e00084b44b6
-
-    // get all matches for a season and league
-    @Resource("/matches")
-    object AllMatchesForSeasonAndLeague
-    // https://mcs-app-backend-c57cd7cec173.herokuapp.com/matches?seasonNumber=2&leagueId=5f2c5e4f08c88e00084b44b6
-    // http://localhost:8080/matches?seasonNumber=2&leagueId=5f2c5e4f08c88e00084b44b6
-
-    // get all players
+    // get all players on a team for a date
     @Resource("/players")
     object PlayersOnTeamForDate
     // https://mcs-app-backend-c57cd7cec173.herokuapp.com/players?on_teams_date=4-20-2022&on_teams_team_ids=5ec9358e8c0dd900074685c4
@@ -32,6 +19,7 @@ object Routes {
     // http://localhost:8080/leagues
     // v2/leagues?populate=seasons
 
+    // get all matches and teams associated with a season
     @Resource("/season_data")
     object SeasonWithMatchesAndTeams
     // https://mcs-app-backend-c57cd7cec173.herokuapp.com/season_data
