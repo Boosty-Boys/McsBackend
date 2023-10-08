@@ -17,7 +17,6 @@ object Routes {
     object AllLeaguesWithSeasons
     // https://mcs-app-backend-c57cd7cec173.herokuapp.com/leagues
     // http://localhost:8080/leagues
-    // v2/leagues?populate=seasons
 
     // get all matches and teams associated with a season
     @Resource("/season_data")
