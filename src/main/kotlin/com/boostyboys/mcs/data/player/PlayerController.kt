@@ -3,7 +3,8 @@ package com.boostyboys.mcs.data.player
 import com.boostyboys.mcs.Routes
 import com.boostyboys.mcs.di.KodeinController
 import com.boostyboys.mcs.either.Either
-import com.boostyboys.mcs.model.remote.response.ErrorMessage
+import com.boostyboys.mcs.model.requireQueryParameter
+import com.boostyboys.mcs.model.response.ErrorMessage
 import io.ktor.http.ContentType
 import io.ktor.server.application.call
 import io.ktor.server.resources.get
@@ -19,9 +20,15 @@ class PlayerController(override val di: DI) : KodeinController() {
     private val playerRepository: PlayerRepository by instance()
 
     override fun Routing.registerRoutes() {
-        get<Routes.AllPlayers> {
+        get<Routes.PlayersOnTeamForDate> {
             runCatching {
-                playerRepository.getAllPlayers()
+                val teamId = call.requireQueryParameter("team_id")
+                val date = call.requireQueryParameter("date")
+
+                playerRepository.getPlayersOnTeamForDate(
+                    teamId = teamId,
+                    date = date,
+                )
             }.fold(
                 onSuccess = {
                     when (it) {
@@ -53,5 +60,3 @@ class PlayerController(override val di: DI) : KodeinController() {
         }
     }
 }
-
-// wins / losses for teams - for every team
