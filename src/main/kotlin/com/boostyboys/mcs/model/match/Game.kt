@@ -24,7 +24,7 @@ data class Game(
     @SerialName("rl_game_id")
     val rlGameId: String?,
     @SerialName("status")
-    val status: String?,
+    val status: MatchStatus?,
     @SerialName("updated_at")
     val updatedAt: String,
     @SerialName("winning_team_id")
