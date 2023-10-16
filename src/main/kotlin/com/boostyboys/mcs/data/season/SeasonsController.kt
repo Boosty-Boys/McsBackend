@@ -13,6 +13,7 @@ import io.ktor.http.ContentType
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.resources.get
+import io.ktor.server.resources.post
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Routing
@@ -27,7 +28,7 @@ class SeasonsController(override val di: DI) : KodeinController() {
     private val teamsRepository: TeamsRepository by instance()
 
     override fun Routing.registerRoutes() {
-        get<Routes.SeasonWithMatchesAndTeams> {
+        post<Routes.SeasonWithMatchesAndTeams> {
             runCatching {
                 val requestBody = call.receive<SeasonDataRequest>()
 

@@ -5,6 +5,7 @@ import com.boostyboys.mcs.di.bindSingleton
 import com.boostyboys.mcs.kodeinApplication
 import com.boostyboys.mcs.model.response.ErrorMessage
 import io.ktor.client.request.get
+import io.ktor.client.request.post
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.testApplication
@@ -22,7 +23,7 @@ class SeasonsControllerTest {
             }
         }
 
-        val response = client.get("/season_data")
+        val response = client.post("/season_data")
         assertEquals(HttpStatusCode.OK, response.status)
         val deserialized = Json.decodeFromString<ErrorMessage>(response.bodyAsText())
         assertEquals(HttpStatusCode.InternalServerError.value, deserialized.httpStatusCode)
