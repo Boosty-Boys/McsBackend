@@ -1,9 +1,8 @@
-package com.boostyboys.mcs.data.season
+package com.boostyboys.mcs.data.team
 
 import com.boostyboys.mcs.either.Either
-import com.boostyboys.mcs.model.match.MatchWithGames
 import com.boostyboys.mcs.model.response.ErrorMessage
-import com.boostyboys.mcs.model.season.SeasonWithMatches
+import com.boostyboys.mcs.model.team.Team
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -13,38 +12,45 @@ import io.ktor.http.isSuccess
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 
-class SeasonsRepository(private val client: HttpClient) {
+class TeamsRepository(private val client: HttpClient) {
 
-    suspend fun getAllMatchesForSeason(seasonId: String): Either<List<MatchWithGames>, ErrorMessage> {
+    suspend fun getTeamsFromIds(teamIds: List<String>): Either<List<Team>, ErrorMessage> {
         return runCatching {
             runBlocking {
-                val seasonResponseAsync = async {
+                val teamsResponseAsync = async {
                     client.get {
-                        this.url("seasons/$seasonId?populate=matches.games")
+                        var queryString = ""
+                        teamIds.forEachIndexed { index, teamId ->
+                            queryString += if (index == 0) {
+                                "?_id=$teamId"
+                            } else {
+                                "&_id=$teamId"
+                            }
+                        }
+
+                        this.url("teams$queryString")
                     }
                 }
 
-                val seasonResponse = seasonResponseAsync.await()
+                val teamsResponse = teamsResponseAsync.await()
 
                 when {
-                    seasonResponse.status.isSuccess() -> {
-                        val seasonBody = seasonResponse.body<SeasonWithMatches>()
-                        Either.success(seasonBody.matches)
+                    teamsResponse.status.isSuccess() -> {
+                        val teamsBody = teamsResponse.body<List<Team>>()
+                        Either.success(teamsBody)
                     }
-
-                    seasonResponse.status.isSuccess().not() -> {
+                    teamsResponse.status.isSuccess().not() -> {
                         Either.failure(
                             ErrorMessage(
-                                httpStatusCode = seasonResponse.status.value,
-                                message = seasonResponse.status.description,
+                                httpStatusCode = teamsResponse.status.value,
+                                message = teamsResponse.status.description,
                             ),
                         )
                     }
-
                     else -> {
                         Either.failure(
                             ErrorMessage(
-                                httpStatusCode = HttpStatusCode.InternalServerError.value,
+                                httpStatusCode = 500,
                                 message = "Unknown error occurred",
                             ),
                         )

@@ -2,17 +2,17 @@ package com.boostyboys.mcs
 
 import com.boostyboys.mcs.data.league.LeagueController
 import com.boostyboys.mcs.data.league.LeagueRepository
-import com.boostyboys.mcs.data.match.MatchController
-import com.boostyboys.mcs.data.match.MatchRepository
 import com.boostyboys.mcs.data.player.PlayerController
 import com.boostyboys.mcs.data.player.PlayerRepository
 import com.boostyboys.mcs.data.season.SeasonsController
 import com.boostyboys.mcs.data.season.SeasonsRepository
+import com.boostyboys.mcs.data.team.TeamsRepository
 import com.boostyboys.mcs.di.KodeinController
 import com.boostyboys.mcs.di.bindHttpClient
 import com.boostyboys.mcs.di.bindSingleton
 import io.ktor.client.HttpClient
 import io.ktor.http.HttpHeaders
+import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.application.install
@@ -20,11 +20,14 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.metrics.micrometer.MicrometerMetrics
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.callloging.CallLogging
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.defaultheaders.DefaultHeaders
 import io.ktor.server.plugins.swagger.swaggerUI
 import io.ktor.server.resources.Resources
 import io.ktor.server.routing.routing
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import org.kodein.di.DI
 import org.kodein.di.Instance
 import org.kodein.di.bind
@@ -37,10 +40,21 @@ private const val LOCAL_PORT = 8080
 /**
  * An entry point of the embedded-server
  **/
+@OptIn(ExperimentalSerializationApi::class)
 fun main() {
     val port = System.getenv("PORT")?.toInt() ?: LOCAL_PORT
     embeddedServer(Netty, port = port) {
         kodeinApplication {
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        prettyPrint = true
+                        ignoreUnknownKeys = true
+                        explicitNulls = false
+                    },
+                )
+            }
+
             install(DefaultHeaders) {
                 header(HttpHeaders.Server, "ktor")
             }
@@ -61,15 +75,13 @@ fun main() {
 
             bindSingleton { di -> LeagueController(di) }
 
-            bindSingleton { di -> MatchController(di) }
-
             bind<PlayerRepository>() with factory { PlayerRepository(instance()) }
 
             bind<LeagueRepository>() with factory { LeagueRepository(instance()) }
 
             bind<SeasonsRepository>() with factory { SeasonsRepository(instance()) }
 
-            bind<MatchRepository>() with factory { MatchRepository(instance()) }
+            bind<TeamsRepository>() with factory { TeamsRepository(instance()) }
 
             bindHttpClient()
         }

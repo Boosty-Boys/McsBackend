@@ -86,6 +86,7 @@ dependencies {
     implementation("io.ktor:ktor-server-resources")
     implementation("io.ktor:ktor-server-default-headers")
     implementation("io.ktor:ktor-server-html-builder")
+    implementation("io.ktor:ktor-server-content-negotiation")
     implementation("io.ktor:ktor-client-cio")
     implementation("io.ktor:ktor-client-content-negotiation")
     implementation("io.ktor:ktor-serialization-kotlinx-json")
@@ -96,6 +97,7 @@ dependencies {
 
     implementation("org.kodein.di:kodein-di-jvm:7.17.0")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
 
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
