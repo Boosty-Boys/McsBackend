@@ -5,6 +5,7 @@ import com.boostyboys.mcs.data.team.TeamsRepository
 import com.boostyboys.mcs.di.KodeinController
 import com.boostyboys.mcs.either.Either
 import com.boostyboys.mcs.model.match.FlatMatchWithGames
+import com.boostyboys.mcs.model.match.MatchStatus
 import com.boostyboys.mcs.model.response.ErrorMessage
 import com.boostyboys.mcs.model.season.SeasonDataRequest
 import com.boostyboys.mcs.model.season.SeasonDataResponse
@@ -91,17 +92,21 @@ class SeasonsController(override val di: DI) : KodeinController() {
                         teams.find { team ->
                             team.id == teamId
                         }?.let { team ->
-                            team.matchesPlayed++
+                            if (match.status == MatchStatus.CLOSED) {
+                                team.matchesPlayed++
 
-                            if (match.winningTeamId == team.id) {
-                                team.matchesWon++
-                            }
+                                if (match.winningTeamId == team.id) {
+                                    team.matchesWon++
+                                }
 
-                            match.games.forEach { game ->
-                                team.gamesPlayed++
+                                match.games.forEach { game ->
+                                    if (game.status == MatchStatus.CLOSED) {
+                                        team.gamesPlayed++
 
-                                if (game.winningTeamId == team.id) {
-                                    team.gamesWon++
+                                        if (game.winningTeamId == team.id) {
+                                            team.gamesWon++
+                                        }
+                                    }
                                 }
                             }
                         }
