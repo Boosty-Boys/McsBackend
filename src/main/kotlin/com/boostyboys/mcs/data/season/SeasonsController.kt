@@ -93,19 +93,19 @@ class SeasonsController(override val di: DI) : KodeinController() {
                         }?.let { team ->
                             if (match.status == MatchStatus.CLOSED) {
                                 team.matchesPlayed++
-                            }
 
-                            if (match.winningTeamId == team.id) {
-                                team.matchesWon++
-                            }
-
-                            match.games.forEach { game ->
-                                if (game.status == MatchStatus.CLOSED) {
-                                    team.gamesPlayed++
+                                if (match.winningTeamId == team.id) {
+                                    team.matchesWon++
                                 }
 
-                                if (game.winningTeamId == team.id) {
-                                    team.gamesWon++
+                                match.games.forEach { game ->
+                                    if (game.status == MatchStatus.CLOSED) {
+                                        team.gamesPlayed++
+
+                                        if (game.winningTeamId == team.id) {
+                                            team.gamesWon++
+                                        }
+                                    }
                                 }
                             }
                         }
